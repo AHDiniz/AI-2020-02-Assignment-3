@@ -51,11 +51,99 @@ class AnimalClassifierEngine(KnowledgeEngine):
     
     @Rule(Fact(is_reptile="S"))
     def ask_members(self):
-        self.declare(Fact(has_four_members=input("O animal tem quatro membros? ")))
+        self.declare(Fact(has_four_members=input("O réptil tem quatro membros? ")))
     
     @Rule(Fact(has_four_members="S"))
     def ask_scaled(self):
-        self.declare(Fact(is_scaled=input("O animal é escamado? ")))
+        self.declare(Fact(is_scaled=input("O réptil é escamado? ")))
+    
+    @Rule(Fact(is_scaled="S"))
+    def return_camaleao(self):
+        print("O animal é um camaleão.")
+    
+    @Rule(Fact(is_scaled="N"))
+    def ask_shell(self):
+        self.declare(Fact(has_shell=input("O réptil tem carapaça? ")))
+    
+    @Rule(Fact(has_shell="S"))
+    def return_tartaruga(self):
+        print("O animal é uma tartaruga.")
+    
+    @Rule(Fact(has_shell="N"))
+    def return_jacare(self):
+        print("O animal é um jacaré.")
+    
+    @Rule(Fact(has_four_members="N"))
+    def return_cobra(self):
+        print("O animal é uma cobra")
+    
+    @Rule(Fact(is_reptile="N"))
+    def ask_mammal(self):
+        self.declare(Fact(is_mammal=input("O animal é um mamífero? ")))
+    
+    @Rule(Fact(is_mammal="N"))
+    def ask_flying(self):
+        self.declare(Fact(is_flying=input("A ave voa? ")))
+    
+    @Rule(Fact(is_flying="S"))
+    def ask_falconiform(self):
+        self.declare(Fact(is_falconiform=input("A ave é um falconiforme? ")))
+    
+    @Rule(Fact(is_falconiform="S"))
+    def return_gaviao(self):
+        print("O animal é um gavião.")
+    
+    @Rule(Fact(is_falconiform="N"))
+    def ask_immovable_on_air(self):
+        self.declare(Fact(can_immovable_flying=input("A ave pode ficar imóvel no ar? ")))
+    
+    @Rule(Fact(can_immovable_flying="S"))
+    def return_beija_flor(self):
+        print("O animal é um beija-flor.")
+    
+    @Rule(Fact(can_immovable_flying="N"))
+    def return_gaivota(self):
+        print("O animal é uma gaivota.")
+    
+    @Rule(Fact(is_flying="N"))
+    def return_pinguim(self):
+        print("O animal é um pinguim.")
+    
+    @Rule(Fact(is_mammal="S"))
+    def ask_primal(self):
+        self.declare(Fact(is_primal=input("O mamífero é um primata? ")))
+    
+    @Rule(Fact(is_primal="N"))
+    def ask_aquatic(self):
+        self.declare(Fact(is_aquatic=input("O mamífero é aquático? ")))
+    
+    @Rule(Fact(is_aquatic="N"))
+    def ask_nocturnal(self):
+        self.declare(Fact(is_nocturnal=input("O mamífero é noturno? ")))
+    
+    @Rule(Fact(is_nocturnal="N"))
+    def ask_canine(self):
+        self.declare(Fact(is_canine=input("O mamífero é um canino? ")))
+    
+    @Rule(Fact(is_canine="N"))
+    def return_urso(self):
+        print("O animal é um urso.")
+    
+    @Rule(Fact(is_canine="S"))
+    def return_cao(self):
+        print("O animal é um cão.")
+    
+    @Rule(Fact(is_nocturnal="S"))
+    def return_morcego(self):
+        print("O animal é um morcego.")
+    
+    @Rule(Fact(is_aquatic="S"))
+    def return_baleia(self):
+        print("O animal é uma baleia.")
+    
+    @Rule(Fact(is_primal="S"))
+    def return_humano(self):
+        print("O animal é um humano.")
 
 engine = AnimalClassifierEngine()
 engine.reset()
