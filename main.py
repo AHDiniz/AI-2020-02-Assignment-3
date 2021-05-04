@@ -76,13 +76,13 @@ class AnimalClassifierEngine(KnowledgeEngine):
         self.declare(Fact(ask_to_repeat="S"))
 
     # If the animal is not a fish:
-    @Rule(Fact(is_anifibious="N"))
+    @Rule(Fact(is_anfibious="N"))
     def ask_reptile(self):
         self.declare(Fact(is_reptile=input("O animal é um réptil? "))) # Asking if the animal is a reptile
 
     # If the animal is a reptile:
     @Rule(Fact(is_reptile="S"))
-    def ask_members(self):
+    def ask_bird(self):
         self.declare(Fact(is_bird=input("O réptil é um pássaro? "))) # Asking if the reptile is a bird
 
     # If the reptile is not a bird:
