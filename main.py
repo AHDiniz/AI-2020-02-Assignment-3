@@ -80,11 +80,16 @@ class AnimalClassifierEngine(KnowledgeEngine):
     def ask_reptile(self):
         self.declare(Fact(is_reptile=input("O animal é um réptil? "))) # Asking if the animal is a reptile
 
-    # If the animal is a reptile:    
+    # If the animal is a reptile:
     @Rule(Fact(is_reptile="S"))
     def ask_members(self):
-        self.declare(Fact(has_four_members=input("O réptil tem quatro membros? "))) # Asking if the animal has four members
-    
+        self.declare(Fact(is_bird=input("O réptil é um pássaro? "))) # Asking if the reptile is a bird
+
+    # If the reptile is not a bird:
+    @Rule(Fact(is_bird="N"))
+    def ask_members(self):
+        self.declare(Fact(has_four_members=input("O réptil tem quatro membros? "))) # Asking if the reptile has four members
+
     # If the reptile has four members:
     @Rule(Fact(has_four_members="S"))
     def ask_scaled(self):
@@ -125,12 +130,12 @@ class AnimalClassifierEngine(KnowledgeEngine):
         self.declare(Fact(is_mammal=input("O animal é um mamífero? "))) # Asking if the animal is a mammal
     
     # If the animal is not a mammal, it's a bird:
-    @Rule(Fact(is_mammal="N"))
+    @Rule(Fact(is_bird="S"))
     def ask_flying(self):
-        self.declare(Fact(is_flying=input("A ave voa? "))) # Asking if the bird flies
+        self.declare(Fact(can_fly=input("A ave voa? "))) # Asking if the bird flies
     
     # If the bird flies:
-    @Rule(Fact(is_flying="S"))
+    @Rule(Fact(can_fly="S"))
     def ask_falconiform(self):
         self.declare(Fact(is_falconiform=input("A ave é um falconiforme? "))) # Asking if the bird is falconiform
     
@@ -140,75 +145,91 @@ class AnimalClassifierEngine(KnowledgeEngine):
         print("O animal é um gavião.")
         self.declare(Fact(ask_to_repeat="S"))
     
+    # If the bird isn't falconiform:
     @Rule(Fact(is_falconiform="N"))
     def ask_immovable_on_air(self):
         self.declare(Fact(can_immovable_flying=input("A ave pode ficar imóvel no ar? ")))
     
+    # If the bird can stay immovable on air:
     @Rule(Fact(can_immovable_flying="S"))
     def return_beija_flor(self):
         print("O animal é um beija-flor.")
         self.declare(Fact(ask_to_repeat="S"))
     
+    # If the bird can't stay immovable on air:
     @Rule(Fact(can_immovable_flying="N"))
     def return_gaivota(self):
         print("O animal é uma gaivota.")
         self.declare(Fact(ask_to_repeat="S"))
     
-    @Rule(Fact(is_flying="N"))
+    # If the bird can't fly:
+    @Rule(Fact(can_fly="N"))
     def return_pinguim(self):
         print("O animal é um pinguim.")
         self.declare(Fact(ask_to_repeat="S"))
     
+    # If the animal is a mammal:
     @Rule(Fact(is_mammal="S"))
     def ask_primal(self):
-        self.declare(Fact(is_primate=input("O mamífero é um primata? ")))
+        self.declare(Fact(is_primate=input("O mamífero é um primata? "))) # Asking if the mammal is a primate
     
+    # If the mammal isn't a primate:
     @Rule(Fact(is_primate="N"))
     def ask_aquatic(self):
-        self.declare(Fact(is_aquatic=input("O mamífero é aquático? ")))
+        self.declare(Fact(is_aquatic=input("O mamífero é aquático? "))) # Asking if the mammal is aquatic
     
+    # If the mammal isn't aquatic:
     @Rule(Fact(is_aquatic="N"))
     def ask_nocturnal(self):
-        self.declare(Fact(is_nocturnal=input("O mamífero é noturno? ")))
+        self.declare(Fact(is_nocturnal=input("O mamífero é noturno? "))) # Asking if the mammal is nocturnal
     
+    # If the mammal isn't nocturnal:
     @Rule(Fact(is_nocturnal="N"))
     def ask_canine(self):
-        self.declare(Fact(is_canine=input("O mamífero é um canino? ")))
+        self.declare(Fact(is_canine=input("O mamífero é um canino? "))) # Asking if the mammal is canine
     
+    # If the mammal isn't canine:
     @Rule(Fact(is_canine="N"))
     def return_urso(self):
         print("O animal é um urso.")
         self.declare(Fact(ask_to_repeat="S"))
     
+    # If the mammal is canine:
     @Rule(Fact(is_canine="S"))
     def return_cao(self):
         print("O animal é um cão.")
         self.declare(Fact(ask_to_repeat="S"))
     
+    # If the mammal is nocturnal:
     @Rule(Fact(is_nocturnal="S"))
     def return_morcego(self):
         print("O animal é um morcego.")
         self.declare(Fact(ask_to_repeat="S"))
     
+    # If the mammal is aquatic:
     @Rule(Fact(is_aquatic="S"))
     def return_baleia(self):
         print("O animal é uma baleia.")
         self.declare(Fact(ask_to_repeat="S"))
     
+    # If the mammal is primate:
     @Rule(Fact(is_primate="S"))
     def return_humano(self):
         print("O animal é um humano.")
         self.declare(Fact(ask_to_repeat="S"))
     
+    # Asking to the user if the program can identify another animal:
     @Rule(Fact(ask_to_repeat="S"))
     def ask_to_repeat(self):
         self.declare(Fact(can_repeat=input("Deseja identificar outro animal? ")))
     
+    # Repeating the process:
     @Rule(Fact(can_repeat="S"))
     def start_repeat(self):
         self.reset()
         self.run()
     
+    # Ending the program:
     @Rule(Fact(can_repeat="N"))
     def end_run(self):
         print("Tchau.")
